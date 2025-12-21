@@ -1,0 +1,9 @@
+# Recommended dependencies (some optional require system packages)
+Pillow
+numpy
+opencv-python
+pytesseract
+keyboard
+pyautogui
+fastapi
+uvicorn[standard]
