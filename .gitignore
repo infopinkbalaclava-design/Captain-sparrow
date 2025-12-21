@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# virtualenv
+.venv/
+venv/
+ENV/
+env/
+
+# Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Secrets
+.env
+.env.*
+
+# Generated temp files
+tmp/
+*.tmp
+
+# Vision template export dir (optional)
+# vision_templates/

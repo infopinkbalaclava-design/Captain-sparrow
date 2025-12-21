@@ -198,6 +198,59 @@ Deel A (korte antwoorden):
 Korte toelichting (selectie):  
 - Vraag 2: loef/ lijzijde: loef geeft wind op, boot aan loefzijde moet uitwijken.  
 - Vraag 3: in noodgevallen VHF kanaal 16 voor hulpoproep.  
+
+---
+
+## Script — F12 WASD timing simulator (dry-run)
+
+Voor oefendoeleinden staat er een klein Python-script dat met `F12` aan/uit schakelt en in de terminal logt welke WASD-“taps” het *zou* doen met mensachtige timing.
+
+Belangrijk: dit script **stuurt geen toetsen naar applicaties/games** (geen key-injectie). Het is bedoeld als voorbeeld voor hotkeys, threading en timing.
+
+Windows:
+- Install: `pip install keyboard`
+- Run: `python scripts\f12_wasd_timing_simulator.py`
+
+Bediening:
+- `F12` toggle
+- `Ctrl+C` afsluiten
+
+---
+
+## Nieuw: Vision teach & analyze prototype
+
+Ik heb een nieuw script toegevoegd dat je helpt *leren* wat van het scherm te analyseren en wanneer een actie geschikt is. Dit is een veilige, dry-run-first tool die geen toetsen verstuurt tenzij je expliciet en zorgvuldig anders aangeeft.
+
+Bestand: `scripts/f12_vision_trainer.py`
+
+Belangrijkste features:
+- `--vision` analyse mode (periodieke screen captures, detecteert eerder aangeleerde templates)
+- `--teach` of Ctrl+Shift+T: interactief region selection tool (selecteer een gebied op het scherm en label het)
+- Dry-run behavior: bij een match print het script een **suggested action** (bijv. "press W") in de terminal, maar voert niets uit
+- Optionele persist (opslaan templates): `--persist-templates`
+- CLI flags: `--interval` (analyse interval), `--threshold` (template match threshold)
+
+Voorbeelden:
+- Start analyse (visie) in dry-run: `python scripts\f12_vision_trainer.py --vision --interval 0.5`
+- Start en gebruik teach: `python scripts\f12_vision_trainer.py --teach` en dan druk `Ctrl+Shift+T` om een regio te selecteren
+
+Veiligheid en ethiek:
+- Gebruik dit niet om games of ongeautoriseerde systemen te automatiseren.
+- Standaard is alles in dry-run-modus; ga zorgvuldig te werk als je persistentie of daadwerkelijke injectie overweegt.
+
+Extra tools toegevoegd:
+- `scripts/install_deps.py` — interactieve helper om optionele dependencies te installeren (gebruik `python scripts\\install_deps.py --all --yes` om alles non-interactief te installeren).
+- `scripts/web_panel.py` — eenvoudige FastAPI web control panel + kleine UI zodat je de trainer vanaf een andere device kunt bedienen (token-based beveiliging en expliciete `--allow-remote` flag vereist).
+
+Belangrijke instructies voor de web panel:
+- Start lokaal (veilige default): `python scripts\\web_panel.py --port 8000` (bindt aan 127.0.0.1).
+- Voor remote toegang: `python scripts\\web_panel.py --host 0.0.0.0 --allow-remote --token <SECRET>`.
+  - Zorg dat je een sterke token gebruikt en dat je firewall lokale netwerkomgeving vertrouwt.
+- Je kunt optioneel afhankelijkheden automatisch laten installeren bij het starten van het panel: `python scripts\\web_panel.py --install-deps` (dit roept `scripts/install_deps.py --all --yes` op).
+- Endpoints: `/status`, `/toggle`, `/teach`, `/templates`, `/export`, `/import`, `/stats`, `/enable_inject`.
+
+Veiligheidsbelang: remote toegang vereist expliciete token en het panel weigert injection-enablement zonder extra checks; de injector moet handmatig geactiveerd in de serverconsole (interactieve flow) en zal processen checken.
+
 - Vraag 9: signaal duidt op "niet manoeuvreerbaar" (kort-kort-lang).
 
 Deel B (rekeningen):  
